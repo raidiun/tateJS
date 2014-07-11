@@ -1,6 +1,8 @@
 tateJS
 ======
 
+**tateModern.min.js is OUT OF DATE**
+
 A javascript gallery creator/controller
 
 Two versions are present. **tateModern.js** uses a ```<div>``` filled with ```<img>``` elements to create the gallery
@@ -17,7 +19,7 @@ Here ```divId``` is the id of the ```<div>``` containing the ```<img>``` element
 in the gallery will be in the order that the ```<img>``` elements are in the div.
 ```opts``` is detailed below.
 
-##tate.js
+##tate.js (Not Recommended)
 tate (classic) has three interfaces:
 ```js
 tateJS.newGallery(galleryName)
@@ -31,14 +33,17 @@ tateJS.viewer.createViewerFor(galleryName,opts)
  ```<script>``` element in which this function is called.
 
 ##The ```opts```
-```json
-  defaultOpts: {  canExpand: true,    //Do images expand when clicked
-                  cycles: false,      //Does the gallery automatically cycle
-                  hasControls: true,  //Does the viewer have controls
-                  width: 4            //How many images in the viewer 
-                  }
+```js
+defaultOpts: {	
+		canExpand: true,    //Do images expand when clicked
+		cycles: false,      //Does the gallery automatically cycle
+		hasControls: true,  //Does the viewer have controls
+		width: 4            //How many images in the viewer 
+		}
 ```
-The ```opts``` argument is a JSO as outlined above. Any option left undefined will take the default values shown above.
+The ```opts``` argument is a JSO as outlined above. Any option left undefined will take the default values shown above. 
+
+**NB: the cycles option currently does nothing** 
 
 ##Styling
 
