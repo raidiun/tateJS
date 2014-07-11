@@ -151,7 +151,7 @@ var tateJS = {
                         if(newStart<=0) {
                             newStart = 0;
                             newEnd = gallery.width - 1;
-                            overflowFlag = true;
+                            overflow = true;
                             }
                         
                         var controls = document.getElementById(galleryKey).getElementsByClassName("tateJSviewerControls")[0].childNodes;
