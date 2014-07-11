@@ -148,7 +148,7 @@ var tateJS = {
                         var length = gallery.array.length;
                         var overflow = false;
                         
-                        if(newStart<0) {
+                        if(newStart<=0) {
                             newStart = 0;
                             newEnd = gallery.width - 1;
                             overflowFlag = true;
