@@ -19,7 +19,7 @@ in the gallery will be in the order that the ```<img>``` elements are in the div
 
 As for the different versions:
  - .js is the human readable source with all interfaces with HR-names
- - .mach.js is a machine-minified version of the .js version (http://closure-compiler.appspot.com/)(With HR-interfaces)
+ - .mach.js is a machine-minified version of the .js version (http://closure-compiler.appspot.com/ )(With HR-interfaces)
  - .min.js is the hand-minified version. All interfaces except tateJS.createViewerFor() have single letter names
  - .machmin.js is the machine-minified version of the hand-minified version (No HR-interfaces)
 
