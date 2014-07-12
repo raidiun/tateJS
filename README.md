@@ -1,8 +1,6 @@
 tateJS
 ======
 
-**tateModern.min.js is OUT OF DATE**
-
 A javascript gallery creator/controller
 
 Two versions are present. **tateModern.js** uses a ```<div>``` filled with ```<img>``` elements to create the gallery
@@ -18,6 +16,12 @@ tateJS.createViewerFor(divId,opts)
 Here ```divId``` is the id of the ```<div>``` containing the ```<img>``` elements that make up the gallery. The images
 in the gallery will be in the order that the ```<img>``` elements are in the div.
 ```opts``` is detailed below.
+
+As for the different versions:
+ - .js is the human readable source with all interfaces with HR-names
+ - .mach.js is a machine-minified version of the .js version (http://closure-compiler.appspot.com/)(With HR-interfaces)
+ - .min.js is the hand-minified version. All interfaces except tateJS.createViewerFor() have single letter names
+ - .machmin.js is the machine-minified version of the hand-minified version (No HR-interfaces)
 
 ##tate.js (Not Recommended)
 tate (classic) has three interfaces:
