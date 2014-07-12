@@ -1,33 +1,33 @@
 var tateJS = {
     
-    galleries: {},//Key-value pairs containing the galleries as arrays of image objects
+    galleries: {},//Key-value pairs containing the gallery objects
     
     GalleryObj: function(array,width,position) {
-                        this.array = array;
-                        this.width = width;
-                        this.position = position;
+                        this.array = array;			//Array of image objects
+                        this.width = width;			//Number of images
+                        this.position = position;	//Index of currently displayed first image
                         },
     
     ImageObj: function(elem,caption,galleryKey,idx) {
-                        this.elem = elem;
-                        this.idx = idx;
-                        this.galleryKey = galleryKey;
-                        this.caption = caption;
-                        this.visible = true;
+                        this.elem = elem;				//Reference to the image element
+                        this.idx = idx;					//Index of the image within the
+                        this.galleryKey = galleryKey;	//Key of the gallery within tateJS.galleries
+                        this.caption = caption;			//Caption text for the image
+                        this.visible = true;			//Whether the element is visible (May not be needed given we have [gallery].position)
                         },
     
-    expanded: undefined,
+    expanded: undefined,	//Reference to the currently expanded image object
     
-    expander: undefined,
+    expander: undefined,	//Reference to the expander div and its children
     
-    setupGallery: function(galleryKey,nodeList) {
+    setupGallery: function(galleryKey,nodeList) {	//Setup a new gallery with key=galleryKey from the supplied nodeList
                         var imgArr = [];
                         
                         for(var idx=0,l=nodeList.length;idx<l;idx++) {
                             var image = nodeList[idx];
                             image.className += " tateJSthumb";
                             var caption = image.getAttribute("data-tatejs-caption");
-                            if(caption === "") {
+                            if(caption == "" || caption == undefined) {
                                 caption = image.alt;
                                 }
                             imgArr.push(new tateJS.ImageObj(image,caption,galleryKey,idx));
@@ -36,13 +36,13 @@ var tateJS = {
                         return(tateJS.galleries[galleryKey]);
                         },
     
-    defaultOpts: {      canExpand: true,
+    defaultOpts: {      canExpand: true,	//Default options for a gallery
                         cycles: false,
                         hasControls: true,
                         width: 4
                         },
     
-    createViewerFor: function(divId,opts) {
+    createViewerFor: function(divId,opts) {		//Create a viewer for the images in the div with divId
                         for(option in tateJS.defaultOpts) {
                             if(opts[option] === undefined) {
                                 opts[option] = tateJS.defaultOpts[option];
@@ -52,11 +52,11 @@ var tateJS = {
                         var viewerDiv = document.getElementById(divId);
                         viewerDiv.className += " tateJSviewer";
         
-                        var gallery = tateJS.setupGallery(divId,viewerDiv.getElementsByTagName("img"));
+                        var gallery = tateJS.setupGallery(divId,viewerDiv.getElementsByTagName("img"));//Setup gallery in tateJS.galleries
         
                         if(opts.canExpand === true) {
                             for(var idx=0,l=gallery.array.length;idx<l;idx++) {
-                                (function(idx){//Strange closure syntax to freeze the divId and idx variables (See http://www.mikeplate.com/2011/11/24/creating-a-closure-in-javascript/ )
+                                (function(idx){//Strange closure syntax to freeze the idx variable (See http://www.mikeplate.com/2011/11/24/creating-a-closure-in-javascript/ )
                                     (gallery.array[idx]).elem.addEventListener("click",function(){tateJS.expand((tateJS.galleries[divId]).array[idx])});
                                     })(idx);
                                 }
@@ -65,7 +65,7 @@ var tateJS = {
                         gallery.width = opts.width;
                         gallery.position = 0;
         
-                        if(opts.hasControls === true) {
+                        if(opts.hasControls === true) {		//If opts specifies controls, setup the controls
                             var viewerControls = document.createElement("div");
                             viewerControls.className = "tateJSviewerControls";
                             
@@ -88,7 +88,7 @@ var tateJS = {
                             viewerDiv.appendChild(viewerControls);
                             }
         
-                        if(gallery.array.length>opts.width) {
+                        if(gallery.array.length>opts.width) {//Set the visible images
                             tateJS.setVisible(divId,0,(opts.width-1));
                             }
                         else {
@@ -96,11 +96,11 @@ var tateJS = {
                             }
         
                         if(opts.cycles != undefined) {
-                            //Setup animation loop
+                            //Setup animation loop **DOES NOTHING AOY**
                             }
                         },
     
-    setVisible: function(galleryKey,startNum,endNum) {
+    setVisible: function(galleryKey,startNum,endNum) {	//Make images in gallery visible if index is between startNum and endNum
                         var gallery = tateJS.galleries[galleryKey];
                         for(var idx=0,l=gallery.array.length;idx<l;idx++) {
                             if((startNum<=idx) && (idx<=endNum)) {
@@ -112,7 +112,7 @@ var tateJS = {
                             }
                         },
     
-    viewerNext: function(galleryKey) {
+    viewerNext: function(galleryKey) {		//Next button for viewer with galleryKey
                         var gallery = tateJS.galleries[galleryKey];
                         var newStart = gallery.position + gallery.width;
                         var newEnd = newStart + gallery.width - 1;
@@ -141,7 +141,7 @@ var tateJS = {
                         tateJS.setVisible(galleryKey,newStart,newEnd);
                         },
     
-    viewerPrev: function(galleryKey) {
+    viewerPrev: function(galleryKey) {		//Prev button for viewer with galleryKey
                         var gallery = tateJS.galleries[galleryKey];
                         var newStart = gallery.position - gallery.width;
                         var newEnd = newStart + gallery.width - 1;
@@ -171,7 +171,7 @@ var tateJS = {
                         tateJS.setVisible(galleryKey,newStart,newEnd);
                         },
     
-    expand: function(imageObj) {
+    expand: function(imageObj) {	//Set specified image as expanded image
                         var expander = tateJS.expander;
                         if(expander === undefined) {
                             expander = tateJS.setupExpander();
@@ -183,7 +183,7 @@ var tateJS = {
                         expander.divElem.style.visibility = "visible";
                         },
     
-    expanderNext: function() {
+    expanderNext: function() {		//Next button in expander
                         var galleryKey = tateJS.expanded.galleryKey;
                         var idx = tateJS.expanded.idx;
                         idx++;
@@ -195,7 +195,7 @@ var tateJS = {
                             }
                         },
         
-    expanderPrev: function() {
+    expanderPrev: function() {		//Prev button in expander
                         var galleryKey = tateJS.expanded.galleryKey;
                         var idx = tateJS.expanded.idx;
                         idx--;
@@ -207,11 +207,11 @@ var tateJS = {
                             }
                         },
     
-    shrink: function() {
+    shrink: function() {		//Close button in expander
                         tateJS.expander.divElem.style.visibility = "hidden";
                         },
 
-    setupExpander: function() {
+    setupExpander: function() {		//One-shot creation / initialisation of expander div and tateJS.expander
                         var expandWrapper = document.createElement("div");
                         expandWrapper.id = "tateJSexpander";
                         
