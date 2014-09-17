@@ -8,6 +8,11 @@ whilst **tate.js** uses a ```<script>``` tag that contains the setup instruction
 placed. I like to think that **tateModern.js** has better code but it is bigger (Though has a minified version). It also
 has a nicer degrade if the user doesn't support JS.
 
+Each ```<img>``` element used has two optional attributes: ```data-tatejs-caption``` and ```data-tatejs-exp```. The
+```-caption``` attribute specifies an alternative caption for the image when "expanded". By default this caption takes the
+alt text as its value. The ```-exp``` attribute specifies an alternative source for the expanded image allowing a higher res
+image to be used for the expanded state.
+
 ##tateModern.js
 tateModern only really has one interface: 
 ```js
@@ -17,13 +22,16 @@ Here ```divId``` is the id of the ```<div>``` containing the ```<img>``` element
 in the gallery will be in the order that the ```<img>``` elements are in the div.
 ```opts``` is detailed below.
 
-As for the different versions:
+Additionally the image that is in first place in the viewer has the class ```tateJSkeyImage``` applied to enable it to have a
+custom styling from the rest of the images.
+
+As for the different versions: **NB: ALL MIN VERS OUT OF DATE (commit:9da1cb1b53fb70d8d633641e2dfe70ed550477aa)**
  - .js is the human readable source with all interfaces with HR-names
  - .mach.js is a machine-minified version of the .js version (http://closure-compiler.appspot.com/ )(With HR-interfaces)
  - .min.js is the hand-minified version. All interfaces except tateJS.createViewerFor() have single letter names
  - .machmin.js is the machine-minified version of the hand-minified version (No HR-interfaces)
 
-##tate.js (Not Recommended)
+##tate.js (Not Recommended) **DEPRECATED: NO LONGER IN DEVELOPMENT**
 tate (classic) has three interfaces:
 ```js
 tateJS.newGallery(galleryName)
@@ -39,13 +47,16 @@ tateJS.viewer.createViewerFor(galleryName,opts)
 ##The ```opts```
 ```js
 defaultOpts: {	
-		canExpand: true,    //Do images expand when clicked
-		cycles: false,      //Does the gallery automatically cycle
-		hasControls: true,  //Does the viewer have controls
-		width: 4            //How many images in the viewer 
+		canExpand: true,	//Do images expand when clicked
+		cycles: false,		//Does the gallery automatically cycle
+		hasControls: true,	//Does the viewer have controls
+		hasIndicator: true,	//Does the viewer have a n of x indicator
+		width: 4,			//How many images in the viewer 
+		skipSize: "width"	//How far does the next button take you
 		}
 ```
 The ```opts``` argument is a JSO as outlined above. Any option left undefined will take the default values shown above. 
+The ```skipSize``` option has a default value equal to the width. It can be changed to an integer value
 
 **NB: the cycles option currently does nothing** 
 
