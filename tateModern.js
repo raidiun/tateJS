@@ -126,6 +126,13 @@ var tateJS = {
     setVisible: function(galleryKey,startNum,endNum) {	//Make images in gallery visible if index is between startNum and endNum
                         var gallery = tateJS.galleries[galleryKey];
                         for(var idx=0,l=gallery.array.length;idx<l;idx++) {
+							if(startNum == idx) {
+								(gallery.array[idx]).elem.className += " tateJSkeyImg";
+								}
+							else {
+								//Ref: http://stackoverflow.com/questions/9959781/remove-classname-from-element-with-javascript
+								(gallery.array[idx]).elem.className = (gallery.array[idx]).elem.className.replace(/(?:^|\s)tateJSkeyImg(?!\S)/,"");
+								}
                             if((startNum<=idx) && (idx<=endNum)) {
                                 (gallery.array[idx]).elem.style.display = "inline";
                                 }
@@ -170,7 +177,7 @@ var tateJS = {
 							}
                         var overflow = false;
                         
-                        if(newEnd>(length-1)) {
+                        if(newEnd>(length-2)) {
                             newEnd = length - 1;
                             newStart = length - gallery.width;
                             overflow = true;
@@ -232,7 +239,11 @@ var tateJS = {
                             expander = tateJS.setupExpander();
                             }
                         tateJS.expanded = imageObj;
-                        expander.imgElem.src = imageObj.elem.src;
+						var expSrc = imageObj.elem.getAttribute("data-tatejs-exp");
+						if(expSrc == undefined || expSrc == "") {
+							expSrc = imageObj.elem.src;
+							}
+						expander.imgElem.src = expSrc;
                         expander.captionElem.innerHTML = imageObj.caption;
                         
                         expander.divElem.style.visibility = "visible";
