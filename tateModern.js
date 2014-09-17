@@ -6,6 +6,8 @@ var tateJS = {
                         this.array = array;			//Array of image objects
                         this.width = width;			//Number of images
                         this.position = position;	//Index of currently displayed first image
+						this.hasIndicator = false;	//Default indicator status
+						this.skip = width;			//Default skipSize
                         },
     
     ImageObj: function(elem,caption,galleryKey,idx) {
@@ -66,13 +68,10 @@ var tateJS = {
         
                         gallery.width = opts.width;
                         gallery.position = 0;
+						gallery.skip = opts.width;
 						
-						var skipLen;
-						if(opts.skipSize == "width") {
-							skipLen = undefined;
-							}
-						else {
-							skipLen = Number(opts.skipSize);
+						if(opts.skipSize != "width") {
+							gallery.skip = Number(opts.skipSize);
 							}
         
                         if(opts.hasControls === true) {		//If opts specifies controls, setup the controls
@@ -80,8 +79,8 @@ var tateJS = {
                             viewerControls.className = "tateJSviewerControls";
                             
                             var prevButton = document.createElement("button");
-							prevButton.id = (divId + "ControlPrev");
-                            prevButton.addEventListener("click",function(){tateJS.viewerPrev(divId,skipLen)});
+							prevButton.className += " tateJSprev";
+                            prevButton.addEventListener("click",function(){tateJS.viewerPrev(divId)});
                             prevButton.innerHTML = "Previous";
 							
 							if(opts.hasIndicator == true) {
@@ -90,8 +89,8 @@ var tateJS = {
 								}
                             
                             var nextButton = document.createElement("button");
-							prevButton.id = (divId + "ControlNext");
-                            nextButton.addEventListener("click",function(){tateJS.viewerNext(divId,skipLen)});
+							nextButton.className += " tateJSnext";
+                            nextButton.addEventListener("click",function(){tateJS.viewerNext(divId)});
                             nextButton.innerHTML = "Next";
                             
                             viewerControls.appendChild(prevButton);
@@ -106,7 +105,11 @@ var tateJS = {
                             }
 		
 						if(opts.hasIndicator == true) {
-							//add a span. NB: needs to be updated based on idx && position.
+							var indicator = document.createElement("span");
+							indicator.id = divId + "Indicator";
+							indicator.className = "tateJSIndicator";
+							viewerControls.appendChild(indicator);
+							gallery.hasIndicator = true;
 							}
         
                         if(gallery.array.length>opts.width) {//Set the visible images
@@ -115,8 +118,6 @@ var tateJS = {
                         else {
                             tateJS.setVisible(divId,0,(gallery.array.length-1));
                             }
-		
-						tateJS.updateIndicator(divId,skipLen);
         
                         if(opts.cycles != undefined) {
                             //Setup animation loop **DOES NOTHING AOY**
@@ -140,41 +141,40 @@ var tateJS = {
                                 (gallery.array[idx]).elem.style.display = "none";
                                 }
                             }
+						tateJS.updateIndicator(galleryKey);
                         },
 	
-	updateIndicator: function(galleryKey,skipSize) {
+	updateIndicator: function(galleryKey) {
 						var gallery = tateJS.galleries[galleryKey];
-						var indicator = document.getElementById(galleryKey + "Indicator");
-						if(skipSize == undefined) {
-							skipSize = gallery.width;
+						if(gallery.hasIndicator) {
+							var indicator = document.getElementById(galleryKey + "Indicator");
+							var skipSize = gallery.skip;
+							
+							var pages;
+							if(gallery.array.length % skipSize) {
+								pages = Math.floor(gallery.array.length/skipSize) + 1;
+								}
+							else {
+								pages = gallery.array.length/skipSize;
+								}
+							
+							var cPage;
+							if(gallery.position % skipSize) {
+								cPage = Math.ceil(gallery.position/skipSize) + 1;
+								}
+							else {
+								cPage = gallery.position/skipSize + 1;
+								}
+			
+							indicator.innerHTML = String(cPage) + " of " + String(pages);
 							}
-						
-						var pages;
-						if(gallery.array.length % skipSize) {
-							pages = Math.floor(gallery.array.length/skipSize) + 1;
-							}
-						else {
-							pages = gallery.array.length/skipSize
-							}
-						
-						var cPage;
-						if(gallery.position % skipSize) {
-							cPage = Math.ceil(gallery.position/skipSize) + 1;
-							}
-						else {
-							cPage = gallery.position/skipSize + 1;
-							}
-		
-						indicator.innerHTML = cPage.toString() + " of " + pages.toString();
 						},
     
-    viewerNext: function(galleryKey,length) {		//Next button for viewer with galleryKey
+    viewerNext: function(galleryKey) {		//Next button for viewer with galleryKey
                         var gallery = tateJS.galleries[galleryKey];
-                        var newStart = gallery.position + gallery.width;
+                        var newStart = gallery.position + gallery.skip;
                         var newEnd = newStart + gallery.width - 1;
-						if(length == undefined) {
-							length = gallery.array.length;
-							}
+						var length = gallery.array.length;
                         var overflow = false;
                         
                         if(newEnd>(length-2)) {
@@ -196,17 +196,14 @@ var tateJS = {
                                 }
                             }
                         gallery.position = newStart;
-						tateJS.updateIndicator(galleryKey,length);
-                        tateJS.setVisible(galleryKey,newStart,newEnd);
+						tateJS.setVisible(galleryKey,newStart,newEnd);
                         },
     
-    viewerPrev: function(galleryKey,length) {		//Prev button for viewer with galleryKey
+    viewerPrev: function(galleryKey) {		//Prev button for viewer with galleryKey
                         var gallery = tateJS.galleries[galleryKey];
-                        var newStart = gallery.position - gallery.width;
+                        var newStart = gallery.position - gallery.skip;
                         var newEnd = newStart + gallery.width - 1;
-						if(length == undefined) {
-							length = gallery.array.length;
-							}
+						var length = gallery.array.length;
                         var overflow = false;
                         
                         if(newStart<=0) {
@@ -229,7 +226,6 @@ var tateJS = {
                                 }
                             }
                         gallery.position = newStart;
-						tateJS.updateIndicator(galleryKey,length);
                         tateJS.setVisible(galleryKey,newStart,newEnd);
                         },
     
