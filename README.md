@@ -53,7 +53,7 @@ The ```skipSize``` option has a default value equal to the width. It can be chan
 
 ##Styling
 
-For both tate and tateModern, the expander (the box that contains the expanded image) has the structure below:
+The expander (the box that contains the expanded image) has the structure below:
 ```html
 <div id="tateJSexpander">
 	<img id="tateJSexpanderImage" />
@@ -82,9 +82,7 @@ Styling can be applied using the CSS id selectors
   </div>
 </div>
  ```
-In addition, with tate (classic) each image will have ```id="[galleryName][index]"``` and the main viewer ```<div>```
-will have ```id="[galleryName]viewer"```. With tateModern this ```id``` structure is not present. However, the main
-viewer ```<div>``` will have ```id="[galleryName]"``` as this is set during creation of the viewer.
+The main viewer ```<div>``` will have ```id="[galleryName]"``` as this is set during creation of the viewer.
 
 ###Standard style
 ```css
