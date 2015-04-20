@@ -45,6 +45,12 @@ The ```skipSize``` option has a default value equal to the width. It can be chan
 
 **NB: the cycles option currently does nothing** 
 
+##Features to Add
+
+ - [ ] A preload option to load the ```-exp``` images in the background.
+ - [ ] Custom attachment points for the expander
+ - [ ] An overlay div for the expander, nominally transparent.
+
 ##Styling
 
 For both tate and tateModern, the expander (the box that contains the expanded image) has the structure below:
