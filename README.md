@@ -31,19 +31,6 @@ As for the different versions: **NB: ALL MIN VERS OUT OF DATE (commit:9da1cb1b53
  - .min.js is the hand-minified version. All interfaces except tateJS.createViewerFor() have single letter names
  - .machmin.js is the machine-minified version of the hand-minified version (No HR-interfaces)
 
-##tate.js (Not Recommended) **DEPRECATED: NO LONGER IN DEVELOPMENT**
-tate (classic) has three interfaces:
-```js
-tateJS.newGallery(galleryName)
-tateJS.addImageTo(galleryName,imageSrc,imageAltText)
-tateJS.viewer.createViewerFor(galleryName,opts)
-```
- - ```newGallery()``` is required to add the gallery's name to the dictionary in case of multiple galleries on a page.
- This must be called before any function requiring a gallery name.
- - ```addImageTo()``` is called to add a new image to a gallery. Images will appear in the order that they are added.
- - ```createViewerFor()``` is much the same as for tateModern but the viewer ```<div>``` will appear after the
- ```<script>``` element in which this function is called.
-
 ##The ```opts```
 ```js
 defaultOpts: {	
