@@ -3,10 +3,8 @@ tateJS
 
 A javascript gallery creator/controller
 
-Two versions are present. **tateModern.js** uses a ```<div>``` filled with ```<img>``` elements to create the gallery
-whilst **tate.js** uses a ```<script>``` tag that contains the setup instructions after which the gallery viewer is
-placed. I like to think that **tateModern.js** has better code but it is bigger (Though has a minified version). It also
-has a nicer degrade if the user doesn't support JS.
+**tateModern.js** uses a ```<div>``` filled with ```<img>``` elements to create the gallery. This allows a somewhat
+nice degreade with JS turned off.
 
 Each ```<img>``` element used has two optional attributes: ```data-tatejs-caption``` and ```data-tatejs-exp```. The
 ```-caption``` attribute specifies an alternative caption for the image when "expanded". By default this caption takes the
